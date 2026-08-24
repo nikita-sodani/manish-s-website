@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manish Kumar Singh — Sports Physiotherapist</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --black:   #111111;
+      --grey-1:  #444444;
+      --grey-2:  #888888;
+      --grey-3:  #cccccc;
+      --grey-4:  #f2f2f0;
+      --white:   #ffffff;
+      --accent:  #1a4a3a;   /* deep forest green — subtle, professional */
+      --accent-light: #eaf2ee;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; width: 100%; object-fit: cover; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── UTILITY ─────────────────────────────────────── */
+    .container { max-width: 1140px; margin: 0 auto; padding: 0 2rem; }
+    .label {
+      font-size: 0.7rem; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--grey-2);
+      margin-bottom: 1.25rem; display: block;
+    }
+    .label-accent { color: var(--accent); }
+    .serif { font-family: 'DM Serif Display', serif; }
+    .divider { height: 1px; background: var(--grey-3); margin: 0; }
+
+    /* ── NAV ─────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      background: transparent;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      height: 62px;
+      transition: background 0.4s, border-color 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(10,10,10,0.96);
+      border-bottom-color: rgba(255,255,255,0.08);
+      backdrop-filter: blur(12px);
+    }
+    .nav-inner {
+      max-width: 1140px; margin: 0 auto; padding: 0 2rem;
+      height: 100%; display: flex; align-items: center; justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.175rem; color: var(--white);
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2.5rem; align-items: center; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 500; color: rgba(255,255,255,0.7);
+      letter-spacing: 0.02em; transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--white); }
+    .nav-cta {
+      background: var(--white); color: var(--black) !important;
+      padding: 0.55rem 1.4rem; border-radius: 2px;
+      font-size: 0.78rem !important; font-weight: 600 !important;
+      letter-spacing: 0.04em; transition: background 0.2s, color 0.2s !important;
+    }
+    .nav-cta:hover { background: rgba(255,255,255,0.85) !important; }
+
+    /* ── HERO — DARK CINEMATIC ────────────────────────── */
+    .hero {
+      position: relative;
+      width: 100%; height: 100vh;
+      min-height: 600px;
+      overflow: hidden;
+      background: #0a0a0a;
+      /* Persistent photo shown once video fades out */
+      background-image: url('images/photo-04.jpg');
+      background-size: cover;
+      background-position: center 20%;
+    }
+
+    /* Video stitch */
+    .hero-video {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      opacity: 0;
+      transition: opacity 1.2s ease;
+    }
+    .hero-video.active { opacity: 1; }
+
+    /* Layered dark overlay: bottom-heavy gradient for text legibility */
+    .hero-overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(to top,  rgba(0,0,0,0.90) 0%,  rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.15) 100%),
+        linear-gradient(to right, rgba(0,0,0,0.55) 0%, transparent 60%);
+    }
+
+    /* Subtle film-grain texture */
+    .hero-grain {
+      position: absolute; inset: 0; pointer-events: none;
+      opacity: 0.035;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Hero content */
+    .hero-content {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 3rem 4.5rem;
+      max-width: 1140px; margin: 0 auto; left: 0; right: 0;
+    }
+    .hero-kicker {
+      font-size: 0.68rem; font-weight: 600;
+      letter-spacing: 0.18em; text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.85rem;
+      opacity: 0; transform: translateY(12px);
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-kicker::before,
+    .hero-kicker::after {
+      content: ''; display: block;
+      width: 36px; height: 1px;
+      background: rgba(255,255,255,0.35);
+    }
+    .hero-content h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      line-height: 1.05; color: var(--white);
+      margin-bottom: 1.5rem; font-weight: 400;
+      max-width: 700px;
+      opacity: 0; transform: translateY(16px);
+      animation: fadeUp 1s 0.6s forwards;
+    }
+    .hero-content h1 em {
+      font-style: italic; color: rgba(255,255,255,0.45);
+    }
+    .hero-bottom {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; gap: 2rem;
+      flex-wrap: wrap;
+      opacity: 0; transform: translateY(12px);
+      animation: fadeUp 1s 0.9s forwards;
+    }
+    .hero-desc {
+      font-size: 0.95rem; color: rgba(255,255,255,0.55);
+      line-height: 1.75; max-width: 420px;
+      margin-bottom: 1.75rem;
+    }
+    .hero-actions { display: flex; gap: 0.85rem; align-items: center; }
+    .btn {
+      font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+      padding: 0.85rem 2rem; border-radius: 2px;
+      display: inline-block; transition: all 0.2s;
+      text-transform: uppercase;
+    }
+    .btn-white { background: var(--white); color: var(--black); }
+    .btn-white:hover { background: rgba(255,255,255,0.85); }
+    .btn-outline-white {
+      background: transparent; color: var(--white);
+      border: 1px solid rgba(255,255,255,0.35);
+    }
+    .btn-outline-white:hover { border-color: rgba(255,255,255,0.7); }
+
+    /* Stats strip in hero */
+    .hero-stats {
+      display: flex; gap: 0;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .hstat {
+      padding: 0.85rem 1.5rem; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .hstat:last-child { border-right: none; }
+    .hstat-n {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.5rem; color: var(--white); line-height: 1;
+    }
+    .hstat-l {
+      font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em;
+      text-transform: uppercase; color: rgba(255,255,255,0.38);
+      margin-top: 0.3rem;
+    }
+
+    /* Scroll indicator */
+    .hero-scroll {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      opacity: 0; animation: fadeUp 1s 1.4s forwards;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.5), transparent);
+      animation: scrollPulse 2s 1.5s infinite;
+    }
+    .scroll-label {
+      font-size: 0.6rem; letter-spacing: 0.15em;
+      color: rgba(255,255,255,0.35); text-transform: uppercase;
+    }
+
+    /* Hero animations */
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.5; transform: scaleY(1); }
+      50% { opacity: 1; transform: scaleY(1.15); }
+    }
+
+    /* Buttons used elsewhere on the page */
+    .btn-dark { background: var(--black); color: var(--white); }
+    .btn-dark:hover { background: var(--accent); }
+    .btn-ghost {
+      background: transparent; color: var(--black);
+      border: 1px solid var(--grey-3);
+    }
+    .btn-ghost:hover { border-color: var(--black); }
+
+    .chip {
+      font-size: 0.72rem; font-weight: 500;
+      border: 1px solid var(--grey-3);
+      padding: 0.35rem 0.85rem; border-radius: 2px;
+      color: var(--grey-1); white-space: nowrap;
+    }
+
+    /* ── SECTION SHARED ──────────────────────────────── */
+    section { padding: 6rem 0; }
+    section h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 1.15; color: var(--black);
+      margin-bottom: 1.5rem;
+    }
+    .section-intro { font-size: 1rem; color: var(--grey-1); max-width: 580px; }
+
+    /* ── TICKER STRIP ────────────────────────────────── */
+    .ticker-wrap {
+      background: var(--black);
+      padding: 1.1rem 0;
+      overflow: hidden;
+      position: relative;
+    }
+    /* Fade edges */
+    .ticker-wrap::before,
+    .ticker-wrap::after {
+      content: '';
+      position: absolute; top: 0; bottom: 0; width: 120px; z-index: 2;
+      pointer-events: none;
+    }
+    .ticker-wrap::before { left: 0;  background: linear-gradient(to right, var(--black), transparent); }
+    .ticker-wrap::after  { right: 0; background: linear-gradient(to left,  var(--black), transparent); }
+
+    .ticker-track {
+      display: flex; align-items: center;
+      width: max-content;
+      animation: ticker 55s linear infinite;
+    }
+    .ticker-wrap:hover .ticker-track { animation-play-state: paused; }
+
+    @keyframes ticker {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .ticker-item {
+      display: flex; align-items: center; gap: 1.75rem;
+      padding: 0 1.75rem; white-space: nowrap;
+    }
+    .ticker-item span {
+      font-size: 0.78rem; font-weight: 500;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: rgba(255,255,255,0.55);
+      transition: color 0.2s;
+    }
+    .ticker-wrap:hover .ticker-item span { color: rgba(255,255,255,0.7); }
+    .ticker-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,0.18); flex-shrink: 0;
+    }
+
+    /* ── ABOUT ───────────────────────────────────────── */
+    .about { background: var(--white); }
+    .about-grid {
+      display: grid; grid-template-columns: 5fr 4fr;
+      gap: 5rem; align-items: start;
+    }
+    .about-text p {
+      font-size: 0.975rem; color: var(--grey-1);
+      line-height: 1.85; margin-bottom: 1.25rem;
+    }
+    .about-text p strong { color: var(--black); font-weight: 600; }
+    .about-img {
+      position: sticky; top: 80px;
+    }
+    .about-img img { aspect-ratio: 3/4; object-fit: cover; object-position: top; }
+    .about-img-caption {
+      font-size: 0.72rem; color: var(--grey-2);
+      margin-top: 0.75rem; letter-spacing: 0.04em;
+    }
+
+    /* ── ATHLETES ─────────────────────────────────────── */
+    .athletes { background: var(--grey-4); }
+    .athletes-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 3rem;
+      padding-bottom: 2rem; border-bottom: 1px solid var(--grey-3);
+    }
+    .athletes-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .athlete-card { background: var(--white); }
+    .athlete-card .photo-wrap {
+      aspect-ratio: 3/4; overflow: hidden; position: relative;
+    }
+    .athlete-card .photo-wrap img {
+      height: 100%; width: 100%;
+      object-fit: cover; object-position: top;
+      transition: transform 0.5s ease;
+    }
+    .athlete-card:hover .photo-wrap img { transform: scale(1.03); }
+    .athlete-card-info {
+      padding: 1rem 0.25rem;
+      border-top: 2px solid var(--black);
+    }
+    .athlete-card-info h4 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1rem; color: var(--black); margin-bottom: 0.2rem;
+    }
+    .athlete-card-info p {
+      font-size: 0.72rem; color: var(--grey-2);
+      text-transform: uppercase; letter-spacing: 0.06em;
+    }
+
+    /* ── SPECIALIZATIONS ─────────────────────────────── */
+    .specializations { background: var(--white); }
+    .spec-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 4rem; align-items: end;
+      margin-bottom: 4rem; padding-bottom: 3rem;
+      border-bottom: 1px solid var(--grey-3);
+    }
+    .spec-list { display: flex; flex-direction: column; }
+    .spec-item {
+      display: grid; grid-template-columns: 3rem 1fr;
+      gap: 1.5rem; align-items: start;
+      padding: 2rem 0;
+      border-bottom: 1px solid var(--grey-3);
+    }
+    .spec-item:last-child { border-bottom: none; }
+    .spec-num {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.85rem; color: var(--grey-3);
+      padding-top: 0.2rem;
+    }
+    .spec-content h3 {
+      font-size: 1rem; font-weight: 600; color: var(--black);
+      margin-bottom: 0.4rem;
+    }
+    .spec-content p { font-size: 0.875rem; color: var(--grey-1); line-height: 1.7; }
+
+    /* ── EXPERIENCE ──────────────────────────────────── */
+    .experience { background: var(--black); }
+    .experience .label { color: var(--grey-3); }
+    .experience h2 { color: var(--white); }
+    .exp-grid {
+      margin-top: 3.5rem;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+    }
+    .exp-item {
+      padding: 2rem 2.5rem 2rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      display: grid; grid-template-columns: auto 1fr;
+      gap: 1.5rem;
+    }
+    .exp-item:nth-child(even) {
+      padding-left: 2.5rem; padding-right: 0;
+      border-left: 1px solid rgba(255,255,255,0.1);
+    }
+    .exp-year {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.8rem; color: rgba(255,255,255,0.25);
+      padding-top: 0.15rem; white-space: nowrap;
+      min-width: 70px;
+    }
+    .exp-role {
+      font-size: 0.875rem; font-weight: 500; color: var(--white);
+      margin-bottom: 0.25rem; line-height: 1.4;
+    }
+    .exp-org {
+      font-size: 0.78rem; color: rgba(255,255,255,0.45);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── EVENTS / PHOTO GRID ─────────────────────────── */
+    .events { background: var(--white); }
+    .events-header {
+      display: flex; justify-content: space-between;
+      align-items: flex-end; margin-bottom: 3rem;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 1rem;
+    }
+    .photo-item { overflow: hidden; position: relative; }
+    .photo-item img {
+      height: 100%; width: 100%; object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .photo-item:hover img { transform: scale(1.03); }
+    .photo-item.tall { grid-row: span 2; }
+    .photo-item.wide { grid-column: span 2; }
+    .photo-item .photo-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 1.5rem 1rem 1rem;
+      background: linear-gradient(transparent, rgba(0,0,0,0.6));
+      color: white; font-size: 0.72rem; font-weight: 500;
+      letter-spacing: 0.05em; text-transform: uppercase;
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .photo-item:hover .photo-label { opacity: 1; }
+
+    /* ── TESTIMONIALS ────────────────────────────────── */
+    .testimonials { background: var(--grey-4); }
+    .testi-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 2rem; margin-top: 3.5rem;
+    }
+    .testi-card {
+      background: var(--white);
+      padding: 2.25rem;
+      border-top: 2px solid var(--black);
+      display: flex; flex-direction: column;
+    }
+    .testi-quote {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.5rem; line-height: 1; color: var(--grey-3);
+      margin-bottom: 0.75rem;
+    }
+    .testi-card p {
+      font-size: 0.9rem; color: var(--grey-1);
+      line-height: 1.75; flex: 1; margin-bottom: 1.75rem;
+    }
+    .testi-author { display: flex; align-items: center; gap: 1rem; }
+    .testi-avatar {
+      width: 44px; height: 44px; border-radius: 50%;
+      overflow: hidden; background: var(--grey-4);
+      flex-shrink: 0;
+    }
+    .testi-avatar img { height: 100%; object-position: top; }
+    .testi-name {
+      font-size: 0.85rem; font-weight: 600; color: var(--black);
+      margin-bottom: 0.1rem;
+    }
+    .testi-role { font-size: 0.72rem; color: var(--grey-2); }
+
+    /* ── VIDEO SECTION ───────────────────────────────── */
+    .videos { background: var(--white); }
+    .video-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .video-wrap {
+      position: relative; overflow: hidden;
+      background: var(--black);
+    }
+    .video-wrap video {
+      width: 100%; display: block; max-height: 380px;
+      object-fit: cover;
+    }
+    .video-wrap .vid-label {
+      position: absolute; bottom: 1rem; left: 1rem;
+      background: rgba(255,255,255,0.9);
+      padding: 0.3rem 0.75rem;
+      font-size: 0.7rem; font-weight: 600;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      color: var(--black);
+    }
+
+    /* ── EDUCATION ───────────────────────────────────── */
+    .education { background: var(--grey-4); }
+    .edu-grid {
+      display: grid; grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px; background: var(--grey-3);
+      margin-top: 3.5rem;
+    }
+    .edu-item {
+      background: var(--white);
+      padding: 2rem 1.75rem;
+    }
+    .edu-item h4 {
+      font-size: 0.9rem; font-weight: 600; color: var(--black);
+      margin-bottom: 0.35rem; line-height: 1.4;
+    }
+    .edu-item p { font-size: 0.78rem; color: var(--grey-2); }
+
+    /* ── CONTACT ─────────────────────────────────────── */
+    .contact { background: var(--accent); }
+    .contact .label { color: rgba(255,255,255,0.5); }
+    .contact-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 6rem; align-items: center;
+    }
+    .contact h2 {
+      color: var(--white);
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      line-height: 1.15; margin-bottom: 1.25rem;
+    }
+    .contact p { color: rgba(255,255,255,0.7); margin-bottom: 2.5rem; font-size: 0.975rem; }
+    .contact-items { display: flex; flex-direction: column; gap: 0; }
+    .contact-row {
+      display: flex; align-items: center; gap: 1.25rem;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .contact-row:first-child { border-top: 1px solid rgba(255,255,255,0.15); }
+    .c-icon {
+      width: 36px; height: 36px; flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.9rem;
+    }
+    .c-label { font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.15rem; }
+    .c-value { font-size: 0.9rem; font-weight: 500; color: var(--white); }
+    .c-value a { color: inherit; }
+    .contact-cta { margin-top: 2.5rem; }
+    .btn-white {
+      background: var(--white); color: var(--accent);
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em;
+      padding: 0.9rem 2.25rem; border-radius: 2px;
+      display: inline-block; transition: all 0.2s;
+    }
+    .btn-white:hover { background: var(--grey-4); }
+
+    /* ── FOOTER ──────────────────────────────────────── */
+    footer {
+      background: var(--black);
+      padding: 2rem;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .footer-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.95rem; color: var(--white);
+    }
+    footer p {
+      font-size: 0.72rem; color: var(--grey-2);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── HAMBURGER MENU ──────────────────────────────── */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column; justify-content: center;
+      gap: 5px; cursor: pointer; padding: 4px;
+      background: none; border: none;
+    }
+    .nav-hamburger span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--white); transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 62px 0 0 0; z-index: 99;
+      background: rgba(8,8,8,0.97);
+      backdrop-filter: blur(16px);
+      flex-direction: column; align-items: center; justify-content: center;
+      gap: 0;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2rem; color: rgba(255,255,255,0.75);
+      padding: 1rem 2rem; text-align: center;
+      transition: color 0.2s;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      width: 100%;
+    }
+    .mobile-menu a:hover { color: var(--white); }
+    .mobile-menu .mob-cta {
+      margin-top: 1.5rem; font-family: 'Inter', sans-serif;
+      font-size: 0.85rem; font-weight: 600; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--black) !important;
+      background: var(--white); padding: 1rem 2.5rem;
+      border-bottom: none; width: auto;
+    }
+
+    /* ── RESPONSIVE — TABLET (≤ 900px) ──────────────── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+
+      section { padding: 4rem 0; }
+
+      .hero { height: 100svh; min-height: 560px; }
+      .hero-content { padding: 0 1.5rem 3rem; }
+      .hero-content h1 { font-size: clamp(2.4rem, 7vw, 3.5rem); }
+      .hero-bottom { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+      .hero-stats { display: grid; grid-template-columns: 1fr 1fr; width: 100%; }
+      .hero-scroll { display: none; }
+
+      .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .about-img { position: static; }
+
+      .athletes-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      .athletes-header p { max-width: 100%; }
+      .athletes-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+      .spec-header { grid-template-columns: 1fr; gap: 1.5rem; }
+
+      .exp-grid { grid-template-columns: 1fr; }
+      .exp-item { padding: 1.5rem 0; }
+      .exp-item:nth-child(even) { padding-left: 0; border-left: none; }
+
+      .photo-grid { grid-template-columns: 1fr 1fr; }
+      .photo-item.tall { grid-row: span 1; }
+      .photo-item.wide { grid-column: span 1; }
+      /* Always show labels on touch devices */
+      .photo-item .photo-label { opacity: 1; }
+
+      .testi-grid { grid-template-columns: 1fr; }
+
+      .video-grid { grid-template-columns: 1fr; }
+
+      .edu-grid { grid-template-columns: 1fr 1fr; }
+
+      .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    /* ── RESPONSIVE — PHONE (≤ 480px) ───────────────── */
+    @media (max-width: 480px) {
+      .container { padding: 0 1.25rem; }
+
+      section { padding: 3rem 0; }
+
+      .hero-content { padding: 0 1.25rem 2.5rem; }
+      .hero-content h1 { font-size: clamp(2rem, 10vw, 2.8rem); margin-bottom: 1rem; }
+      .hero-kicker { font-size: 0.62rem; margin-bottom: 0.85rem; }
+      .hero-desc { font-size: 0.875rem; margin-bottom: 1.25rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+      .hero-actions .btn { text-align: center; padding: 1rem; }
+      .hero-stats { grid-template-columns: 1fr 1fr; }
+      .hstat { padding: 0.65rem 0.75rem; }
+      .hstat-n { font-size: 1.2rem; }
+
+      .ticker-track { animation-duration: 18s; }
+
+      section h2 { font-size: clamp(1.6rem, 7vw, 2rem); }
+
+      .about-grid { gap: 2rem; }
+
+      .athletes-grid { grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+      .athlete-card-info h4 { font-size: 0.85rem; }
+      .athlete-card-info p { font-size: 0.65rem; }
+
+      .spec-item { grid-template-columns: 2rem 1fr; gap: 1rem; padding: 1.5rem 0; }
+
+      .exp-grid { gap: 0; }
+      .exp-item { grid-template-columns: 60px 1fr; gap: 1rem; }
+      .exp-year { min-width: auto; font-size: 0.7rem; }
+      .exp-role { font-size: 0.825rem; }
+
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-item img { height: 56vw !important; }
+
+      .testi-card { padding: 1.5rem; }
+
+      .edu-grid { grid-template-columns: 1fr; }
+
+      .contact-grid { gap: 2rem; }
+      .contact h2 { font-size: clamp(1.6rem, 7vw, 2rem); }
+
+      footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── NAV ──────────────────────────────────────────── -->
+<nav>
+  <div class="nav-inner">
+    <a href="#home" class="nav-logo">Manish Kumar Singh</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#specializations">Expertise</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#events">Events</a></li>
+      <li><a href="#testimonials">Testimonials</a></li>
+      <li><a href="#contact" class="nav-cta">Get in Touch</a></li>
+    </ul>
+    <button class="nav-hamburger" id="hamburger" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ── MOBILE MENU ────────────────────────────────────── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about"           onclick="closeMenu()">About</a>
+  <a href="#specializations" onclick="closeMenu()">Expertise</a>
+  <a href="#experience"      onclick="closeMenu()">Experience</a>
+  <a href="#events"          onclick="closeMenu()">Events</a>
+  <a href="#testimonials"    onclick="closeMenu()">Testimonials</a>
+  <a href="#contact" class="mob-cta" onclick="closeMenu()">Get in Touch</a>
+</div>
+
+<!-- ── HERO — DARK CINEMATIC ──────────────────────────── -->
+<section class="hero" id="home">
+
+  <!-- Video 1 — starts active -->
+  <video class="hero-video active" id="vid1"
+    src="images/video-1.mp4"
+    muted playsinline autoplay preload="auto"
+    poster="images/photo-04.jpg">
+  </video>
+
+
+<div class="hero-overlay"></div>
+  <div class="hero-grain"></div>
+
+  <div class="hero-content">
+    <div class="hero-kicker">Sports Physiotherapist · Mumbai, India</div>
+    <h1>Trusted by<br/><em>World-Class</em><br/>Athletes.</h1>
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-desc">From Former WTA World No. 1 to Davis Cup Team India — 15 years of elite physiotherapy, rehabilitation, and performance science across 10+ sports.</p>
+        <div class="hero-actions">
+          <a href="#contact" class="btn btn-white">Book a Session</a>
+          <a href="#about" class="btn btn-outline-white">View Profile</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><div class="hstat-n">15+</div><div class="hstat-l">Years Active</div></div>
+        <div class="hstat"><div class="hstat-n">20+</div><div class="hstat-l">Elite Events</div></div>
+        <div class="hstat"><div class="hstat-n">10+</div><div class="hstat-l">Sports</div></div>
+        <div class="hstat"><div class="hstat-n">Former WTA #1</div><div class="hstat-l">Athlete Served</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+  </div>
+
+</section>
+
+<!-- ── TICKER STRIP ───────────────────────────────────── -->
+<div class="ticker-wrap" aria-label="Events and organisations worked with">
+  <div class="ticker-track">
+    <!-- Set A -->
+    <div class="ticker-item"><span>Davis Cup · Team India</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>World Padel League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>ATP Tour</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>WTA Tour</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>IPTL</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Pro Kabaddi League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Premier Futsal League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Indo-Asian Rugby Tournament</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Ultimate Table Tennis</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Chennai Open</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Qatar Open</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Dubai Duty Free Tennis</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>World Legends Pro T20</span><div class="ticker-dot"></div></div>
+    <!-- Set B — exact duplicate for seamless loop -->
+    <div class="ticker-item"><span>Davis Cup · Team India</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>World Padel League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>ATP Tour</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>WTA Tour</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>IPTL</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Pro Kabaddi League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Premier Futsal League</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Indo-Asian Rugby Tournament</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Ultimate Table Tennis</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Chennai Open</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Qatar Open</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>Dubai Duty Free Tennis</span><div class="ticker-dot"></div></div>
+    <div class="ticker-item"><span>World Legends Pro T20</span><div class="ticker-dot"></div></div>
+  </div>
+</div>
+
+<!-- ── ABOUT ─────────────────────────────────────────── -->
+<section class="about" id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-text">
+        <span class="label">About</span>
+        <h2>Bridging Elite Sport &amp; Advanced Rehabilitation</h2>
+        <p>I'm <strong>Manish Kumar Singh</strong> — Sports Physiotherapist and founder of <strong>Back to Function</strong>.</p>
+        <p>My practice is built on one core belief: recovery should bring you back to movement faster, and the foundation you build during that process should last a lifetime. I work with each person to not just heal what's hurting, but to strengthen and stabilise what surrounds it — so you come back stronger than before.</p>
+        <p>With experience at the highest levels of sport — from the ATP and WTA tours to Pro Kabaddi, Davis Cup, and beyond — I bring an elite, evidence-based approach to everyone who walks through the door. Because everyone deserves to function at their best.</p>
+      </div>
+      <div class="about-img">
+        <img src="images/photo-08.jpg" alt="Manish Kumar Singh on the Davis Cup court" />
+        <p class="about-img-caption">On court with Team India · Davis Cup</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── ATHLETES ───────────────────────────────────────── -->
+<section class="athletes" id="athletes">
+  <div class="container">
+    <div class="athletes-header">
+      <div>
+        <span class="label">Notable Athletes</span>
+        <h2>Working Alongside<br/>the World's Best</h2>
+      </div>
+      <p style="max-width:340px; font-size:0.875rem; color:var(--grey-1); line-height:1.7;">
+        A career built courtside, pitchside, and in the treatment room with some of sport's most recognisable names.
+      </p>
+    </div>
+    <div class="athletes-grid">
+      <div class="athlete-card">
+        <div class="photo-wrap">
+          <img src="images/photo-02.jpg" alt="Manish with Daniil Medvedev" />
+        </div>
+        <div class="athlete-card-info">
+          <h4>Daniil Medvedev</h4>
+          <p>ATP World No. 1 · IPTL 2016</p>
+        </div>
+      </div>
+      <div class="athlete-card">
+        <div class="photo-wrap">
+          <img src="images/photo-03.jpg" alt="Manish with Gaël Monfils" />
+        </div>
+        <div class="athlete-card-info">
+          <h4>Gaël Monfils</h4>
+          <p>ATP Tour · Treatment session</p>
+        </div>
+      </div>
+      <div class="athlete-card">
+        <div class="photo-wrap">
+          <img src="images/photo-20.jpg" alt="Manish with Nick Kyrgios" />
+        </div>
+        <div class="athlete-card-info">
+          <h4>Nick Kyrgios</h4>
+          <p>ATP Tour · Wimbledon Finalist</p>
+        </div>
+      </div>
+      <div class="athlete-card">
+        <div class="photo-wrap">
+          <img src="images/photo-05.jpg" alt="Manish with Shikhar Dhawan" />
+        </div>
+        <div class="athlete-card-info">
+          <h4>Shikhar Dhawan</h4>
+          <p>India Cricket · Opening Batsman</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SPECIALIZATIONS ────────────────────────────────── -->
+<section class="specializations" id="specializations">
+  <div class="container">
+    <div class="spec-header">
+      <div>
+        <span class="label">Expertise</span>
+        <h2>Areas of<br/>Specialization</h2>
+      </div>
+      <p class="section-intro">A comprehensive clinical skill set built across 15 years of elite sport, high-performance practice, and advanced international training.</p>
+    </div>
+    <div class="spec-list">
+      <div class="spec-item">
+        <span class="spec-num">01</span>
+        <div class="spec-content">
+          <h3>Manipulative Physiotherapy</h3>
+          <p>Advanced hands-on joint and soft tissue mobilization techniques to restore optimal movement and reduce pain in high-performance athletes.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">02</span>
+        <div class="spec-content">
+          <h3>Injury Management &amp; Rehabilitation</h3>
+          <p>Comprehensive sports injury assessment and progressive return-to-play programs tailored to each athlete's sport, position, and competitive schedule.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">03</span>
+        <div class="spec-content">
+          <h3>Deep Tissue &amp; Recovery Massage</h3>
+          <p>Targeted deep tissue therapy and event recovery massage to accelerate healing, reduce delayed-onset muscle soreness, and maintain peak performance across tournaments.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">04</span>
+        <div class="spec-content">
+          <h3>Dry Needling</h3>
+          <p>Precision trigger point dry needling to release myofascial tension, address chronic pain patterns, and restore muscle function in elite athletes.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">05</span>
+        <div class="spec-content">
+          <h3>Cupping Therapy</h3>
+          <p>Traditional and modern cupping for enhanced circulation, fascial decompression, and accelerated recovery between competition days.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">06</span>
+        <div class="spec-content">
+          <h3>Dynamic Taping</h3>
+          <p>Sport-specific taping strategies to support joints, modify load and biomechanics, and enable athletes to train and compete safely through minor injury.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">07</span>
+        <div class="spec-content">
+          <h3>Sport-Specific Fitness &amp; Conditioning</h3>
+          <p>Designing and implementing evidence-based strength, conditioning, and sport-specific fitness programs — from load management during season to off-season rebuilds.</p>
+        </div>
+      </div>
+      <div class="spec-item">
+        <span class="spec-num">08</span>
+        <div class="spec-content">
+          <h3>Structural Integration</h3>
+          <p>GlobalSI-certified whole-body fascial realignment work to improve posture, movement efficiency, and long-term structural resilience in competitive athletes.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EXPERIENCE ─────────────────────────────────────── -->
+<section class="experience" id="experience">
+  <div class="container">
+    <span class="label">Career</span>
+    <h2 style="color:white; margin-bottom:0;">Professional Experience</h2>
+    <div class="exp-grid">
+      <div class="exp-item">
+        <div class="exp-year">2019–Now</div>
+        <div>
+          <div class="exp-role">Consultant Physiotherapist</div>
+          <div class="exp-org">Altus Care, Santacruz &amp; Soleus, Colaba — Mumbai</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2025</div>
+        <div>
+          <div class="exp-role">Head Medical &amp; Sports Therapist</div>
+          <div class="exp-org">World Padel League</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2024–25</div>
+        <div>
+          <div class="exp-role">Consultant Physiotherapist</div>
+          <div class="exp-org">Ahmedabad SG Pipers · Ultimate Table Tennis</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2017–22</div>
+        <div>
+          <div class="exp-role">Consultant PT · Davis Cup, Team India</div>
+          <div class="exp-org">2017, 2018, 2019 &amp; 2022</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2019</div>
+        <div>
+          <div class="exp-role">Personal Physiotherapist</div>
+          <div class="exp-org">Karman Kaur Thandi (ex. No. 2, India)</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2017–19</div>
+        <div>
+          <div class="exp-role">Head Physiotherapist</div>
+          <div class="exp-org">HEAL Institute Pvt. Ltd.</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">Feb 2017</div>
+        <div>
+          <div class="exp-role">Personal PT · Jelena Jankovic (WTA World No. 1)</div>
+          <div class="exp-org">Qatar Open &amp; Dubai Duty Free Tennis Championship</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2016</div>
+        <div>
+          <div class="exp-role">Physiotherapist</div>
+          <div class="exp-org">IPTL — International Premier Tennis League</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2016</div>
+        <div>
+          <div class="exp-role">Head of Operations &amp; Sr. Consultant PT</div>
+          <div class="exp-org">Premier Futsal League</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2015–16</div>
+        <div>
+          <div class="exp-role">Team Physiotherapist · Bengaluru Bulls</div>
+          <div class="exp-org">Pro Kabaddi League</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2015</div>
+        <div>
+          <div class="exp-role">Personal PT · Mahesh Bhupathi</div>
+          <div class="exp-org">Chennai Open · ATP Tour</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2015</div>
+        <div>
+          <div class="exp-role">Head Physiotherapist</div>
+          <div class="exp-org">Indo-Asian Rugby Tournament · Bombay Gymkhana</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2012–14</div>
+        <div>
+          <div class="exp-role">Senior Physiotherapist</div>
+          <div class="exp-org">Yashoda Superspeciality Hospital, Kaushambi</div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-year">2010–12</div>
+        <div>
+          <div class="exp-role">Physiotherapist</div>
+          <div class="exp-org">Safdarjung Sports Injury Center &amp; Jeevan Jyoti Hospital, Delhi</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EVENTS / PHOTO GRID ────────────────────────────── -->
+<section class="events" id="events">
+  <div class="container">
+    <div class="events-header">
+      <div>
+        <span class="label">Events &amp; Assignments</span>
+        <h2>On the Field,<br/>Courtside, Pitchside.</h2>
+      </div>
+    </div>
+    <div class="photo-grid">
+      <div class="photo-item tall">
+        <img src="images/photo-25.jpg" alt="UTT Trophy — Ahmedabad SG Pipers" style="height:100%;" />
+        <span class="photo-label">Ultimate Table Tennis · 2024–25</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-15.jpg" alt="Event coverage" style="height:280px;" />
+        <span class="photo-label">Event coverage</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-16.jpg" alt="Event coverage" style="height:280px;" />
+        <span class="photo-label">Event coverage</span>
+      </div>
+      <div class="photo-item wide">
+        <img src="images/photo-13.jpg" alt="World Legends Pro T20 League — Dubai Royals" style="height:300px;" />
+        <span class="photo-label">World Legends Pro T20 League · Dubai Royals</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-30.jpg" alt="World Padel League" style="height:300px;" />
+        <span class="photo-label">World Padel League · 2025</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-01.jpg" alt="Team photo — Dubai Royals" style="height:280px;" />
+        <span class="photo-label">Dubai Royals team</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-17.jpg" alt="Event" style="height:280px;" />
+        <span class="photo-label">On assignment</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-22.jpg" alt="Event" style="height:280px;" />
+        <span class="photo-label">On assignment</span>
+      </div>
+      <div class="photo-item">
+        <img src="images/photo-28.jpg" alt="Event" style="height:280px;" />
+        <span class="photo-label">On assignment</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── TESTIMONIALS ───────────────────────────────────── -->
+<section class="testimonials" id="testimonials">
+  <div class="container">
+    <span class="label">Testimonials</span>
+    <h2>What Athletes &amp; Leaders Say</h2>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p>Manish is an exceptional physiotherapist — his deep knowledge, professionalism, and dedication to athlete recovery are truly world-class. He understands the demands of elite sport and consistently delivers results when it matters most.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Mahesh_Bhupathi_2011_Australian_Open_IMG_5735.jpg/440px-Mahesh_Bhupathi_2011_Australian_Open_IMG_5735.jpg" alt="Mahesh Bhupathi" />
+          </div>
+          <div>
+            <div class="testi-name">Mahesh Bhupathi</div>
+            <div class="testi-role">12× Grand Slam Champion · Ex-Captain, Davis Cup India</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p>Working with Manish has been a genuine pleasure. His ability to manage athlete health under tournament pressure, his precision in treatment, and his care for long-term performance make him an invaluable part of any team.</p>
+        <div class="testi-author">
+          <div class="testi-avatar">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Rohan_Bopanna_Australian_Open_2013.jpg/440px-Rohan_Bopanna_Australian_Open_2013.jpg" alt="Rohan Bopanna" />
+          </div>
+          <div>
+            <div class="testi-name">Rohan Bopanna</div>
+            <div class="testi-role">India No. 1 Doubles Player · ATP Tour</div>
+          </div>
+        </div>
+      </div>
+      <div class="testi-card">
+        <div class="testi-quote">"</div>
+        <p>Manish is one of the finest sports physiotherapists I have had the privilege to work with. His multidisciplinary approach and genuine passion for athlete wellbeing set him firmly apart from the rest.</p>
+        <div class="testi-author">
+          <div class="testi-avatar" style="background:var(--grey-3); display:flex;align-items:center;justify-content:center;font-size:1rem;color:var(--grey-2);">S</div>
+          <div>
+            <div class="testi-name">Shayamal Vallabhjee</div>
+            <div class="testi-role">Founder &amp; Ex-MD, HEAL Institute Pvt. Ltd.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── VIDEOS ──────────────────────────────────────────── -->
+<section class="videos" id="videos">
+  <div class="container">
+    <span class="label">From the Field</span>
+    <h2>Videos</h2>
+    <div class="video-grid">
+      <div class="video-wrap">
+        <video controls preload="metadata">
+          <source src="images/video-1.mp4" type="video/mp4" />
+        </video>
+        <span class="vid-label">Event footage</span>
+      </div>
+      <div class="video-wrap">
+        <video controls preload="metadata">
+          <source src="images/video-2.mp4" type="video/mp4" />
+        </video>
+        <span class="vid-label">Event footage</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── EDUCATION ──────────────────────────────────────── -->
+<section class="education" id="education">
+  <div class="container">
+    <span class="label">Credentials</span>
+    <h2>Education &amp; Certifications</h2>
+    <div class="edu-grid">
+      <div class="edu-item">
+        <h4>Masters of Physiotherapy — Sports Medicine</h4>
+        <p>GGSIPU, New Delhi</p>
+      </div>
+      <div class="edu-item">
+        <h4>Bachelors of Physiotherapy (BPT)</h4>
+        <p>GGSIPU, New Delhi</p>
+      </div>
+      <div class="edu-item">
+        <h4>Structural Integration</h4>
+        <p>GlobalSI, USA</p>
+      </div>
+      <div class="edu-item">
+        <h4>Kickboxing — Level 1 &amp; Level 2</h4>
+        <p>Mumbai</p>
+      </div>
+      <div class="edu-item">
+        <h4>Basic Fitness Training</h4>
+        <p>IAFT, Mangalore</p>
+      </div>
+      <div class="edu-item" style="background:var(--accent-light); border-left:3px solid var(--accent);">
+        <h4 style="color:var(--accent);">Annual Advanced Training</h4>
+        <p style="color:var(--accent);">Specialist upskilling every year in sports rehab, performance science, and clinical practice</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONTACT ────────────────────────────────────────── -->
+<section class="contact" id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div>
+        <span class="label">Get in Touch</span>
+        <h2>Available for Athletes, Teams &amp; Events.</h2>
+        <p>Whether you're an elite athlete, a sporting team, or an event organiser — Manish brings world-class physiotherapy care to every engagement, from individual sessions to full touring assignments.</p>
+        <a href="mailto:manish.singh587@gmail.com" class="btn-white">Send a Message</a>
+      </div>
+      <div class="contact-items">
+        <div class="contact-row">
+          <div class="c-icon">✆</div>
+          <div>
+            <div class="c-label">Phone</div>
+            <div class="c-value"><a href="tel:+917506988016">+91-7506988016</a></div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">@</div>
+          <div>
+            <div class="c-label">Email</div>
+            <div class="c-value"><a href="mailto:manish.singh587@gmail.com">manish.singh587@gmail.com</a></div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">◎</div>
+          <div>
+            <div class="c-label">Based In</div>
+            <div class="c-value">Mumbai, India</div>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="c-icon">↗</div>
+          <div>
+            <div class="c-label">Availability</div>
+            <div class="c-value">Touring &amp; international assignments welcome</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ─────────────────────────────────────────── -->
+<footer>
+  <span class="footer-logo">Manish Kumar Singh</span>
+  <p>Sports Physiotherapist · Mumbai, India · © 2025</p>
+</footer>
+
+<script>
+  /* ── NAV: turn solid once user scrolls past hero ── */
+  const navEl = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    navEl.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  /* ── HAMBURGER MENU ── */
+  const hamburger  = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  hamburger.addEventListener('click', () => {
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamburger.classList.toggle('open', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+    navEl.classList.toggle('scrolled', isOpen);
+  });
+
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    document.body.style.overflow = '';
+    navEl.classList.toggle('scrolled', window.scrollY > 60);
+  }
+
+  /* Close on outside tap */
+  mobileMenu.addEventListener('click', e => {
+    if (e.target === mobileMenu) closeMenu();
+  });
+
+  /* ── VIDEO: play for 5s, then fade to photo ── */
+  const vid1 = document.getElementById('vid1');
+  const vid2 = document.getElementById('vid2');
+
+  function fadeVideoOut() {
+    vid1.classList.remove('active');
+    vid2.classList.remove('active');
+    /* Let video finish its opacity transition, then pause to free memory */
+    setTimeout(() => {
+      vid1.pause();
+      vid2.pause();
+    }, 1400);
+  }
+
+  /* Start at 5 s, play until 10 s, then fade to photo */
+  vid1.currentTime = 5;
+  vid1.play().then(() => {
+    setTimeout(fadeVideoOut, 5000);
+  }).catch(() => {
+    vid1.classList.remove('active');
+  });
+</script>
+
+</body>
+</html>
